@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Phòng Khám Thanh Tuấn — Demo Hệ Thống</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -555,13 +555,149 @@ table.data-table { width: 100%; border-collapse: collapse; }
 }
 
 /* ── RESPONSIVE ── */
+
+/* Tablet */
+@media (max-width: 960px) {
+  .table-search-wrap { width: 200px; }
+}
+
+/* Tablet + Mobile */
 @media (max-width: 768px) {
   .main-layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .stats-row { grid-template-columns: 1fr 1fr; }
+  .mobile-nav { display: grid; }
   .two-col { grid-template-columns: 1fr; }
   .field-grid { grid-template-columns: 1fr; }
+  .content {
+    padding: 16px;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 16px);
+  }
+  .data-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.data-table { min-width: 580px; }
+  .table-toolbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .table-search-wrap { width: 100%; }
+  .toast {
+    left: 12px; right: 12px;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 12px);
+  }
 }
+
+/* Phone ≤ 640px */
+@media (max-width: 640px) {
+  html { font-size: 14px; }
+
+  /* Topbar */
+  .topbar { padding: 0 16px; height: 52px; }
+  .topbar-date { display: none; }
+  .logo-sub { display: none; }
+  .user-name { display: none; }
+  .user-chip { padding: 4px; border-radius: 50%; background: none; }
+
+  /* Demo badge */
+  .demo-badge { padding: 6px 14px; font-size: 11px; }
+  .demo-long { display: none; }
+
+  /* Stats */
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .stat-card { padding: 12px 14px; }
+  .stat-val { font-size: 22px; }
+  .stat-lbl { font-size: 10px; }
+
+  /* Search */
+  .search-block { padding: 14px; }
+  .search-row { flex-direction: column; }
+  .btn-new-patient { width: 100%; justify-content: center; padding: 11px 16px; }
+
+  /* Patient rows */
+  .patient-row { padding: 11px 12px; }
+  .avatar { width: 36px; height: 36px; font-size: 12px; }
+  .badge-rx { display: none; }
+
+  /* Profile header */
+  .profile-header-card { flex-direction: column; gap: 14px; padding: 16px; }
+  .ph-actions { width: 100%; }
+  .ph-actions button { flex: 1; }
+  .ph-name { font-size: 16px; }
+  .ph-meta { font-size: 12px; }
+  .info-card { padding: 14px; }
+
+  /* Form */
+  .hint-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .btn-clone-rx { align-self: flex-end; }
+  .form-card { padding: 16px; }
+  table.rx-table { min-width: 480px; }
+  .form-footer { flex-direction: column-reverse; gap: 8px; }
+  .btn-save-rx { width: 100%; }
+  .btn-cancel-form { width: 100%; text-align: center; }
+
+  /* Today screen */
+  .today-summary { padding: 12px 14px; gap: 14px; }
+  .today-summary-count { font-size: 24px; }
+  .today-item { padding: 11px 12px; gap: 10px; }
+  .today-divider { display: none; }
+  .today-name { font-size: 13px; }
+
+  /* Screen headings */
+  .screen-heading { margin-bottom: 14px; }
+  .screen-heading h2 { font-size: 16px; }
+
+  /* Modal — slide up from bottom */
+  .modal-overlay { align-items: flex-end; }
+  .modal-box {
+    width: 100%; max-width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 20px 16px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+  .modal-footer { flex-direction: column-reverse; }
+  .modal-footer button { width: 100%; }
+
+  /* Note */
+  .note-sm { font-size: 11px; }
+}
+
+/* ── MOBILE BOTTOM NAV ── */
+.mobile-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  z-index: 100;
+  grid-template-columns: repeat(4, 1fr);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -2px 12px rgba(0,0,0,.07);
+}
+.mob-nav-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; cursor: pointer; color: var(--gray-400);
+  padding: 10px 4px 8px;
+  transition: color .15s; position: relative;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.mob-nav-item svg { width: 22px; height: 22px; flex-shrink: 0; }
+.mob-nav-item span.mob-label { font-size: 10px; font-weight: 500; line-height: 1; }
+.mob-nav-item.active { color: var(--blue); }
+.mob-nav-item.active::after {
+  content: '';
+  position: absolute; top: 0; left: 22%; right: 22%;
+  height: 2px; background: var(--blue);
+  border-radius: 0 0 2px 2px;
+}
+.mob-nav-badge {
+  position: absolute; top: 7px; left: 50%;
+  transform: translateX(6px);
+  min-width: 16px; height: 16px;
+  background: var(--blue); color: white;
+  font-size: 9px; font-weight: 700;
+  border-radius: 8px; padding: 0 4px;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.mob-nav-badge.teal { background: var(--teal); }
 </style>
 </head>
 <body>
@@ -589,7 +725,7 @@ table.data-table { width: 100%; border-collapse: collapse; }
 <!-- DEMO BADGE -->
 <div class="demo-badge">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  Đây là bản demo — dữ liệu mẫu, chưa lưu thực tế. Dùng để trải nghiệm hệ thống trước khi triển khai.
+  Đây là bản demo — dữ liệu mẫu, chưa lưu thực tế.<span class="demo-long"> Dùng để trải nghiệm hệ thống trước khi triển khai.</span>
 </div>
 
 <!-- MAIN LAYOUT -->
@@ -922,6 +1058,28 @@ table.data-table { width: 100%; border-collapse: collapse; }
   </div>
 </div>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" role="navigation" aria-label="Điều hướng chính">
+  <div class="mob-nav-item active" id="mob-nav-search" onclick="navClickSearch()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span class="mob-label">Tìm kiếm</span>
+  </div>
+  <div class="mob-nav-item" id="mob-nav-list" onclick="showScreen('list')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="mob-label">Danh sách</span>
+    <span class="mob-nav-badge" id="mob-list-count">6</span>
+  </div>
+  <div class="mob-nav-item" id="mob-nav-today" onclick="showScreen('today')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span class="mob-label">Hôm nay</span>
+    <span class="mob-nav-badge teal" id="mob-today-count">12</span>
+  </div>
+  <div class="mob-nav-item" id="mob-nav-medicines" onclick="showScreen('medicines')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    <span class="mob-label">Thuốc</span>
+  </div>
+</nav>
+
 <!-- TOAST -->
 <div class="toast" id="toast">
   <div class="toast-icon">
@@ -1185,7 +1343,10 @@ function clearDemoData() {
 
 // ── NAV COUNT ──
 function updateNavCount() {
-  document.getElementById('nav-list-count').textContent = patients.length;
+  const n = patients.length;
+  document.getElementById('nav-list-count').textContent = n;
+  const mob = document.getElementById('mob-list-count');
+  if (mob) mob.textContent = n;
 }
 
 // ── SCREEN MANAGEMENT ──
@@ -1195,6 +1356,12 @@ const NAV_MAP = {
   today:     'nav-today',
   medicines: 'nav-medicines',
 };
+const MOB_NAV_MAP = {
+  search:    'mob-nav-search',
+  list:      'mob-nav-list',
+  today:     'mob-nav-today',
+  medicines: 'mob-nav-medicines',
+};
 
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1202,10 +1369,17 @@ function showScreen(name) {
   if (!target) return;
   target.classList.add('active');
 
+  // Sync sidebar nav
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const navId = NAV_MAP[name] || NAV_MAP[profileSource] || 'nav-search';
   const navEl = document.getElementById(navId);
   if (navEl) navEl.classList.add('active');
+
+  // Sync mobile bottom nav
+  document.querySelectorAll('.mob-nav-item').forEach(n => n.classList.remove('active'));
+  const mobNavId = MOB_NAV_MAP[name] || MOB_NAV_MAP[profileSource] || 'mob-nav-search';
+  const mobNavEl = document.getElementById(mobNavId);
+  if (mobNavEl) mobNavEl.classList.add('active');
 
   if (name === 'search')    renderPatients(patients);
   if (name === 'list')      renderListTable(patients);
@@ -1308,8 +1482,11 @@ function filterListTable() {
 // ── RENDER TODAY SCREEN ──
 function renderTodayScreen() {
   const list = document.getElementById('todayList');
-  document.getElementById('todaySummaryCount').textContent = todayVisits.length;
-  document.getElementById('nav-today-count').textContent = todayVisits.length;
+  const n = todayVisits.length;
+  document.getElementById('todaySummaryCount').textContent = n;
+  document.getElementById('nav-today-count').textContent = n;
+  const mobT = document.getElementById('mob-today-count');
+  if (mobT) mobT.textContent = n;
 
   list.innerHTML = todayVisits.map(v => {
     const clickHandler = v.patientId
