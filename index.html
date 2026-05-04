@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phòng Khám Minh Tâm — Demo Hệ Thống</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #1a6fba;
+  --blue-lt:    #e8f2fb;
+  --blue-mid:   #d0e6f7;
+  --teal:       #0d8a72;
+  --teal-lt:    #e0f5f0;
+  --red:        #c0392b;
+  --red-lt:     #fdecea;
+  --amber:      #b45309;
+  --amber-lt:   #fef3e2;
+  --green:      #16a34a;
+  --green-lt:   #dcfce7;
+  --gray-50:    #f8f7f5;
+  --gray-100:   #f0ede8;
+  --gray-200:   #e2ddd6;
+  --gray-400:   #a09890;
+  --gray-600:   #6b6460;
+  --gray-800:   #3a3330;
+  --gray-900:   #1e1b18;
+  --white:      #ffffff;
+  --radius:     10px;
+  --radius-lg:  14px;
+  --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: var(--blue);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 18px; height: 18px; fill: white; }
+.logo-text {
+  font-size: 15px; font-weight: 600; color: var(--gray-900);
+  letter-spacing: -.01em;
+}
+.logo-sub {
+  font-size: 11px; color: var(--gray-400); font-weight: 400; margin-top: 1px;
+}
+.topbar-right {
+  display: flex; align-items: center; gap: 16px;
+}
+.topbar-date {
+  font-size: 12px; color: var(--gray-600);
+}
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--gray-100); border-radius: 20px;
+  padding: 5px 12px 5px 7px;
+}
+.user-avatar {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--blue); color: white;
+  font-size: 10px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+}
+.user-name { font-size: 12px; font-weight: 500; color: var(--gray-800); }
+
+/* ── DEMO BADGE ── */
+.demo-badge {
+  background: var(--amber-lt);
+  border-bottom: 1px solid #f9d18e;
+  padding: 7px 24px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 12px; color: var(--amber);
+  font-weight: 500;
+}
+
+/* ── LAYOUT ── */
+.main-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 90px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  padding: 20px 12px;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-label {
+  font-size: 10px; font-weight: 600; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding: 0 10px; margin-bottom: 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius);
+  font-size: 13px; font-weight: 500; color: var(--gray-600);
+  cursor: pointer; transition: all .15s; margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--gray-100); color: var(--gray-900); }
+.nav-item.active { background: var(--blue-lt); color: var(--blue); }
+.nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+.nav-count {
+  margin-left: auto; font-size: 11px; background: var(--blue);
+  color: white; border-radius: 10px; padding: 1px 7px; font-weight: 600;
+}
+
+/* ── CONTENT ── */
+.content { padding: 24px; }
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 16px 18px;
+}
+.stat-val { font-size: 26px; font-weight: 600; color: var(--gray-900); line-height: 1; }
+.stat-lbl { font-size: 11px; color: var(--gray-400); margin-top: 5px; font-weight: 500; }
+.stat-trend { font-size: 11px; color: var(--teal); margin-top: 3px; }
+
+/* ── SEARCH BLOCK ── */
+.search-block {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 20px;
+  margin-bottom: 20px;
+}
+.search-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 12px; }
+.search-row { display: flex; gap: 10px; }
+.search-wrap { position: relative; flex: 1; }
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--gray-400);
+}
+.search-icon svg { width: 16px; height: 16px; }
+#searchInput {
+  width: 100%; padding: 10px 12px 10px 38px;
+  font-size: 14px; font-family: 'Be Vietnam Pro', sans-serif;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+  background: var(--white); color: var(--gray-900);
+  transition: border-color .15s; outline: none;
+}
+#searchInput:focus { border-color: var(--blue); }
+#searchInput::placeholder { color: var(--gray-400); }
+.btn-new-patient {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; background: var(--blue); color: white;
+  border: none; border-radius: var(--radius);
+  font-size: 13px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s; white-space: nowrap;
+}
+.btn-new-patient:hover { background: #1460a0; }
+.search-hint { font-size: 11px; color: var(--gray-400); margin-top: 6px; }
+
+/* ── PATIENT LIST ── */
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.list-label { font-size: 12px; font-weight: 600; color: var(--gray-600); }
+.list-count { font-size: 12px; color: var(--gray-400); }
+
+.patient-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius); margin-bottom: 6px;
+  cursor: pointer; transition: all .15s;
+}
+.patient-row:hover { border-color: var(--blue); box-shadow: var(--shadow); transform: translateY(-1px); }
+.pr-left { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; flex-shrink: 0;
+}
+.av-blue   { background: var(--blue-mid); color: var(--blue); }
+.av-teal   { background: var(--teal-lt); color: var(--teal); }
+.av-amber  { background: var(--amber-lt); color: var(--amber); }
+.av-green  { background: var(--green-lt); color: var(--green); }
+.av-purple { background: #f0edfe; color: #6d28d9; }
+
+.pat-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.pat-meta { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+.pr-right { text-align: right; flex-shrink: 0; }
+.last-visit-date { font-size: 12px; font-weight: 600; color: var(--gray-800); }
+.last-visit-label { font-size: 11px; color: var(--gray-400); }
+.badge-rx {
+  display: inline-block; margin-top: 4px;
+  padding: 2px 8px; border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+  background: var(--teal-lt); color: var(--teal);
+}
+
+/* ── SCREEN MANAGEMENT ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── PATIENT PROFILE ── */
+.profile-breadcrumb {
+  font-size: 12px; color: var(--blue); cursor: pointer;
+  display: flex; align-items: center; gap: 4px; margin-bottom: 16px;
+  width: fit-content;
+}
+.profile-breadcrumb:hover { text-decoration: underline; }
+
+.profile-header-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 20px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.profile-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  font-size: 17px; font-weight: 600;
+}
+.ph-info { flex: 1; margin-left: 14px; }
+.ph-name { font-size: 18px; font-weight: 600; color: var(--gray-900); }
+.ph-meta { font-size: 13px; color: var(--gray-600); margin-top: 4px; }
+.allergy-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px; padding: 4px 10px; border-radius: 20px;
+  background: var(--red-lt); color: var(--red);
+  font-size: 11px; font-weight: 600;
+}
+.ph-actions { display: flex; gap: 8px; align-items: flex-start; }
+.btn-primary {
+  padding: 10px 18px; background: var(--blue); color: white;
+  border: none; border-radius: var(--radius);
+  font-size: 13px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s;
+}
+.btn-primary:hover { background: #1460a0; }
+.btn-secondary {
+  padding: 10px 16px; background: var(--white); color: var(--gray-700);
+  border: 1px solid var(--gray-200); border-radius: var(--radius);
+  font-size: 13px; font-weight: 500; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s;
+}
+.btn-secondary:hover { background: var(--gray-100); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+.info-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 18px;
+}
+.info-card.highlight { border-color: var(--blue); border-width: 1.5px; }
+.card-heading {
+  font-size: 11px; font-weight: 600; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.card-heading.blue { color: var(--blue); }
+.card-heading svg { width: 13px; height: 13px; }
+
+.rx-visit-info {
+  font-size: 12px; color: var(--gray-600); margin-bottom: 12px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--gray-100);
+}
+.rx-visit-info strong { color: var(--gray-900); }
+
+.drug-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 9px 0; border-bottom: 1px solid var(--gray-100);
+}
+.drug-item:last-child { border-bottom: none; padding-bottom: 0; }
+.di-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+.di-dose { font-size: 11px; color: var(--gray-600); margin-top: 2px; }
+.di-days {
+  font-size: 11px; font-weight: 600; color: var(--gray-600);
+  background: var(--gray-100); border-radius: 4px; padding: 2px 7px;
+  white-space: nowrap;
+}
+
+.hist-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 0; border-bottom: 1px solid var(--gray-100);
+  cursor: pointer;
+}
+.hist-item:last-child { border-bottom: none; padding-bottom: 0; }
+.hist-item:hover .hist-link { text-decoration: underline; }
+.hi-date { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+.hi-diag { font-size: 11px; color: var(--gray-600); margin-top: 2px; }
+.hist-link { font-size: 12px; color: var(--blue); }
+
+.note-banner {
+  background: var(--amber-lt); border-left: 3px solid #f59e0b;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 10px 14px; font-size: 12px; color: var(--amber);
+}
+.note-banner strong { font-weight: 600; }
+
+/* ── PRESCRIPTION FORM ── */
+.form-card {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px;
+}
+.form-section-title {
+  font-size: 11px; font-weight: 600; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.form-section-title svg { width: 13px; height: 13px; }
+
+.hint-bar {
+  background: var(--blue-lt); border: 1px solid var(--blue-mid);
+  border-radius: var(--radius); padding: 10px 14px;
+  font-size: 12px; color: var(--blue); margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.hint-bar-text { flex: 1; }
+.btn-clone-rx {
+  padding: 5px 12px; background: var(--blue); color: white;
+  border: none; border-radius: 6px; font-size: 11px; font-weight: 600;
+  font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; white-space: nowrap;
+}
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.field-full { margin-bottom: 12px; }
+.field-label { font-size: 12px; font-weight: 500; color: var(--gray-600); margin-bottom: 5px; }
+.field-input, .field-textarea, .field-select {
+  width: 100%; padding: 9px 11px;
+  font-size: 13px; font-family: 'Be Vietnam Pro', sans-serif;
+  border: 1px solid var(--gray-200); border-radius: var(--radius);
+  background: var(--white); color: var(--gray-900);
+  transition: border-color .15s; outline: none;
+}
+.field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--blue); }
+.field-textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
+.field-readonly { background: var(--gray-50) !important; color: var(--gray-600); }
+
+/* ── DRUG TABLE ── */
+.drug-table-wrap { overflow-x: auto; }
+table.rx-table { width: 100%; border-collapse: collapse; }
+.rx-table th {
+  font-size: 11px; font-weight: 600; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 0 8px 10px 0; text-align: left; white-space: nowrap;
+}
+.rx-table td { padding: 5px 8px 5px 0; vertical-align: middle; }
+.rx-table input, .rx-table select {
+  width: 100%; padding: 7px 9px;
+  font-size: 12px; font-family: 'Be Vietnam Pro', sans-serif;
+  border: 1px solid var(--gray-200); border-radius: 7px;
+  background: var(--white); color: var(--gray-900); outline: none;
+}
+.rx-table input:focus, .rx-table select:focus { border-color: var(--blue); }
+.rx-table input.days-input { width: 68px; }
+.btn-remove-drug {
+  background: none; border: none; color: var(--gray-400);
+  font-size: 18px; cursor: pointer; padding: 2px 6px;
+  transition: color .1s; line-height: 1;
+}
+.btn-remove-drug:hover { color: var(--red); }
+
+.drug-actions { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.btn-add-drug {
+  padding: 7px 14px; background: none; color: var(--blue);
+  border: 1px dashed var(--blue-mid); border-radius: var(--radius);
+  font-size: 12px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s;
+}
+.btn-add-drug:hover { background: var(--blue-lt); }
+
+.form-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 16px;
+}
+.btn-cancel-form {
+  padding: 10px 20px; background: var(--white); color: var(--gray-600);
+  border: 1px solid var(--gray-200); border-radius: var(--radius);
+  font-size: 13px; font-weight: 500; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s;
+}
+.btn-cancel-form:hover { background: var(--gray-100); }
+.btn-save-rx {
+  padding: 11px 28px; background: var(--blue); color: white;
+  border: none; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif;
+  cursor: pointer; transition: background .15s;
+}
+.btn-save-rx:hover { background: #1460a0; }
+
+/* ── SUCCESS TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--gray-900); color: white;
+  padding: 14px 20px; border-radius: var(--radius-lg);
+  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-md); z-index: 999;
+  transform: translateY(80px); opacity: 0;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── NEW PATIENT MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.4); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: var(--radius-lg);
+  padding: 28px; width: 480px; max-width: 90vw;
+  box-shadow: var(--shadow-md);
+}
+.modal-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--gray-900); }
+.modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center; padding: 40px 20px; color: var(--gray-400);
+}
+.empty-state p { font-size: 13px; margin-top: 8px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .field-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">Phòng Khám Minh Tâm</div>
+      <div class="logo-sub">Hệ thống quản lý khám chữa bệnh</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-date" id="currentDate"></div>
+    <div class="user-chip">
+      <div class="user-avatar">VA</div>
+      <div class="user-name">BS. Nguyễn Văn A</div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO BADGE -->
+<div class="demo-badge">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Đây là bản demo — dữ liệu mẫu, chưa lưu thực tế. Dùng để trải nghiệm hệ thống trước khi triển khai.
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Chính</div>
+      <div class="nav-item active" onclick="showScreen('search')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Tìm bệnh nhân
+      </div>
+      <div class="nav-item" onclick="showScreen('search')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Danh sách BN
+        <span class="nav-count">8</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hôm nay</div>
+      <div class="nav-item" onclick="showScreen('search')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Đã khám (12)
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Danh mục</div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Danh mục thuốc
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="content">
+
+    <!-- SCREEN: SEARCH/HOME -->
+    <div id="screen-search" class="screen active">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--blue)">12</div>
+          <div class="stat-lbl">Đã khám hôm nay</div>
+          <div class="stat-trend">↑ 3 so với hôm qua</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">1.840</div>
+          <div class="stat-lbl">Tổng bệnh nhân</div>
+          <div class="stat-trend">+5 tuần này</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" style="color:var(--teal)">48</div>
+          <div class="stat-lbl">Tháng này</div>
+          <div class="stat-trend">Trung bình: 8/ngày</div>
+        </div>
+      </div>
+
+      <div class="search-block">
+        <div class="search-title">Tìm kiếm bệnh nhân</div>
+        <div class="search-row">
+          <div class="search-wrap">
+            <span class="search-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input type="text" id="searchInput" placeholder="Nhập tên hoặc số điện thoại bệnh nhân..." oninput="filterPatients()" autocomplete="off"/>
+          </div>
+          <button class="btn-new-patient" onclick="openNewPatientModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Thêm bệnh nhân mới
+          </button>
+        </div>
+        <div class="search-hint">Gõ từ 2 ký tự để tìm kiếm theo tên hoặc số điện thoại</div>
+      </div>
+
+      <div class="list-header">
+        <div class="list-label" id="listLabel">Bệnh nhân gần đây</div>
+        <div class="list-count" id="listCount"></div>
+      </div>
+      <div id="patientList"></div>
+    </div>
+
+    <!-- SCREEN: PATIENT PROFILE -->
+    <div id="screen-profile" class="screen">
+      <div class="profile-breadcrumb" onclick="showScreen('search')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Quay lại tìm kiếm
+      </div>
+
+      <div class="profile-header-card">
+        <div class="pr-left" style="display:flex;align-items:flex-start;gap:14px">
+          <div class="avatar profile-avatar" id="profileAvatar"></div>
+          <div class="ph-info">
+            <div class="ph-name" id="profileName"></div>
+            <div class="ph-meta" id="profileMeta"></div>
+            <div id="profileAllergy"></div>
+          </div>
+        </div>
+        <div class="ph-actions">
+          <button class="btn-secondary">In hồ sơ</button>
+          <button class="btn-primary" onclick="showPrescriptionForm()">
+            + Tạo phiếu khám mới
+          </button>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-card highlight" id="lastRxCard">
+          <div class="card-heading blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Đơn thuốc lần khám gần nhất
+          </div>
+          <div id="lastRxContent"></div>
+        </div>
+        <div class="info-card">
+          <div class="card-heading">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Lịch sử khám
+          </div>
+          <div id="historyContent"></div>
+        </div>
+      </div>
+
+      <div id="profileNote"></div>
+    </div>
+
+    <!-- SCREEN: PRESCRIPTION FORM -->
+    <div id="screen-form" class="screen">
+      <div class="profile-breadcrumb" id="formBreadcrumb" onclick="showScreen('profile')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        <span id="formBreadcrumbName"></span>
+      </div>
+
+      <!-- Patient strip -->
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);margin-bottom:14px">
+        <div class="avatar" id="formAvatar" style="width:36px;height:36px;font-size:12px"></div>
+        <div>
+          <span style="font-size:14px;font-weight:600;color:var(--gray-900)" id="formPatientName"></span>
+          <span id="formAllergyTag" style="margin-left:8px"></span>
+        </div>
+        <span style="font-size:12px;color:var(--gray-500);margin-left:auto" id="formPatientMeta"></span>
+      </div>
+
+      <!-- Hint bar -->
+      <div class="hint-bar" id="hintBar" style="display:none">
+        <div class="hint-bar-text" id="hintBarText"></div>
+        <button class="btn-clone-rx" onclick="cloneLastRx()">Dùng lại đơn này</button>
+      </div>
+
+      <!-- Visit info -->
+      <div class="form-card">
+        <div class="form-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Thông tin khám
+        </div>
+        <div class="field-grid">
+          <div>
+            <div class="field-label">Ngày khám</div>
+            <input class="field-input field-readonly" id="visitDate" readonly/>
+          </div>
+          <div>
+            <div class="field-label">Bác sĩ</div>
+            <input class="field-input field-readonly" value="BS. Nguyễn Văn A" readonly/>
+          </div>
+        </div>
+        <div class="field-full">
+          <div class="field-label">Triệu chứng / Chẩn đoán <span style="color:var(--red)">*</span></div>
+          <textarea class="field-textarea" id="diagnosisInput" placeholder="VD: Viêm họng cấp, sốt nhẹ 38°C, đau họng khi nuốt..."></textarea>
+        </div>
+        <div class="field-full">
+          <div class="field-label">Ghi chú bác sĩ <span style="font-size:11px;color:var(--gray-400)">(không bắt buộc)</span></div>
+          <textarea class="field-textarea" id="noteInput" placeholder="Ghi chú thêm, lưu ý tái khám..." style="min-height:46px"></textarea>
+        </div>
+      </div>
+
+      <!-- Prescription -->
+      <div class="form-card">
+        <div class="form-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Đơn thuốc
+        </div>
+        <div class="drug-table-wrap">
+          <table class="rx-table">
+            <thead>
+              <tr>
+                <th style="width:30%">Tên thuốc</th>
+                <th style="width:30%">Liều dùng</th>
+                <th style="width:10%">Số ngày</th>
+                <th style="width:22%">Ghi chú (cách dùng)</th>
+                <th style="width:8%"></th>
+              </tr>
+            </thead>
+            <tbody id="drugTableBody"></tbody>
+          </table>
+        </div>
+        <div class="drug-actions">
+          <button class="btn-add-drug" onclick="addDrugRow()">+ Thêm thuốc</button>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-cancel-form" onclick="showScreen('profile')">Hủy</button>
+        <button class="btn-save-rx" onclick="saveVisit()">Lưu phiếu khám</button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-layout -->
+
+<!-- NEW PATIENT MODAL -->
+<div class="modal-overlay" id="newPatientModal">
+  <div class="modal-box">
+    <div class="modal-title">Thêm bệnh nhân mới</div>
+    <div class="field-grid">
+      <div>
+        <div class="field-label">Họ và tên <span style="color:var(--red)">*</span></div>
+        <input class="field-input" id="newName" placeholder="VD: Trần Văn Bình"/>
+      </div>
+      <div>
+        <div class="field-label">Số điện thoại</div>
+        <input class="field-input" id="newPhone" placeholder="VD: 0901 234 567"/>
+      </div>
+    </div>
+    <div class="field-grid">
+      <div>
+        <div class="field-label">Ngày sinh</div>
+        <input class="field-input" id="newDob" placeholder="VD: 15/06/1980"/>
+      </div>
+      <div>
+        <div class="field-label">Giới tính</div>
+        <select class="field-select" id="newGender">
+          <option>Nam</option><option>Nữ</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-full">
+      <div class="field-label">Dị ứng thuốc (nếu có)</div>
+      <input class="field-input" id="newAllergy" placeholder="VD: Penicillin, Aspirin..."/>
+    </div>
+    <div class="field-full">
+      <div class="field-label">Địa chỉ</div>
+      <input class="field-input" id="newAddress" placeholder="VD: 45 Lê Lợi, TP. Long Xuyên"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel-form" onclick="closeModal()">Hủy</button>
+      <button class="btn-primary" onclick="addNewPatient()">Thêm bệnh nhân</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- DATALIST for drug autocomplete -->
+<datalist id="drugSuggestions">
+  <option value="Amoxicillin 500mg"/>
+  <option value="Amoxicillin 250mg (trẻ em)"/>
+  <option value="Paracetamol 500mg"/>
+  <option value="Paracetamol 650mg"/>
+  <option value="Ibuprofen 400mg"/>
+  <option value="Cetirizin 10mg"/>
+  <option value="Loratadin 10mg"/>
+  <option value="Omeprazole 20mg"/>
+  <option value="Metformin 500mg"/>
+  <option value="Atorvastatin 20mg"/>
+  <option value="Strepsils (ngậm)"/>
+  <option value="Dextromethorphan (siro ho)"/>
+  <option value="Prednisolone 5mg"/>
+  <option value="Diclofenac 50mg"/>
+  <option value="Azithromycin 500mg"/>
+  <option value="Clarithromycin 500mg"/>
+  <option value="Vitamin C 500mg"/>
+  <option value="Vitamin B complex"/>
+  <option value="Augmentin 625mg"/>
+  <option value="Cefuroxime 500mg"/>
+</datalist>
+
+<script>
+// ── DATA ──
+const today = new Date();
+const fmtDate = d => d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+document.getElementById('currentDate').textContent =
+  today.toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+document.getElementById('visitDate').value = fmtDate(today);
+
+const patients = [
+  {
+    id:1, name:'Nguyễn Thị Bích Vân', phone:'0901 234 567',
+    gender:'Nữ', dob:'12/03/1981', age:44,
+    allergy:'Penicillin',
+    address:'12 Trần Hưng Đạo, TP. Long Xuyên',
+    note:'Hay bị viêm họng tái phát. Huyết áp ổn: 120/80. Cần hỏi thêm thói quen ăn uống.',
+    avClass:'av-blue', avInitial:'NV',
+    visits:[
+      { date:'12/04/2026', diag:'Viêm họng cấp',
+        drugs:[
+          {name:'Amoxicillin 500mg', dose:'1 viên × 3 lần/ngày', days:'7', note:'Sau ăn'},
+          {name:'Paracetamol 500mg', dose:'1 viên × 3 lần/ngày', days:'5', note:'Khi sốt'},
+          {name:'Strepsils (ngậm)',   dose:'1 viên × 4 lần/ngày', days:'5', note:'Ngậm tan'},
+        ]},
+      { date:'28/02/2026', diag:'Cảm cúm, sổ mũi',
+        drugs:[
+          {name:'Paracetamol 500mg', dose:'1 viên × 3 lần/ngày', days:'5', note:'Khi sốt'},
+          {name:'Loratadin 10mg',    dose:'1 viên × 1 lần/ngày', days:'5', note:'Buổi tối'},
+          {name:'Vitamin C 500mg',   dose:'1 viên × 2 lần/ngày', days:'7', note:'Sau ăn'},
+        ]},
+      { date:'10/11/2025', diag:'Đau lưng, mỏi cơ',
+        drugs:[
+          {name:'Ibuprofen 400mg',  dose:'1 viên × 2 lần/ngày', days:'5', note:'Sau ăn no'},
+          {name:'Diclofenac 50mg',  dose:'1 viên × 2 lần/ngày', days:'3', note:'Sau ăn'},
+        ]},
+    ]
+  },
+  {
+    id:2, name:'Trần Văn Minh', phone:'0912 345 678',
+    gender:'Nam', dob:'05/07/1970', age:55,
+    allergy:'',
+    address:'88 Ngô Quyền, TP. Long Xuyên',
+    note:'Tiền sử tăng huyết áp. Đang dùng Amlodipine 5mg dài hạn. Cần theo dõi huyết áp mỗi lần khám.',
+    avClass:'av-teal', avInitial:'TM',
+    visits:[
+      { date:'01/05/2026', diag:'Tái khám tăng huyết áp',
+        drugs:[
+          {name:'Amlodipine 5mg',    dose:'1 viên × 1 lần/ngày', days:'30', note:'Sáng sớm'},
+          {name:'Atorvastatin 20mg', dose:'1 viên × 1 lần/ngày', days:'30', note:'Tối trước ngủ'},
+        ]},
+      { date:'01/04/2026', diag:'Tái khám tăng huyết áp, nhức đầu',
+        drugs:[
+          {name:'Amlodipine 5mg',  dose:'1 viên × 1 lần/ngày', days:'30', note:'Sáng sớm'},
+          {name:'Paracetamol 500mg', dose:'1 viên × 3 lần/ngày', days:'3', note:'Khi nhức đầu'},
+        ]},
+    ]
+  },
+  {
+    id:3, name:'Lê Thị Hồng Nhung', phone:'0933 111 222',
+    gender:'Nữ', dob:'20/08/1990', age:34,
+    allergy:'',
+    address:'34 Hai Bà Trưng, TP. Long Xuyên',
+    note:'',
+    avClass:'av-amber', avInitial:'LN',
+    visits:[
+      { date:'29/04/2026', diag:'Rối loạn tiêu hóa, đau dạ dày',
+        drugs:[
+          {name:'Omeprazole 20mg',   dose:'1 viên × 2 lần/ngày', days:'14', note:'Trước ăn 30 phút'},
+          {name:'Metoclopramide 10mg', dose:'1 viên × 3 lần/ngày', days:'7',  note:'Trước ăn'},
+        ]},
+      { date:'15/03/2026', diag:'Viêm dạ dày nhẹ',
+        drugs:[
+          {name:'Omeprazole 20mg', dose:'1 viên × 1 lần/ngày', days:'14', note:'Sáng trước ăn'},
+        ]},
+    ]
+  },
+  {
+    id:4, name:'Phạm Văn Đức', phone:'0977 888 999',
+    gender:'Nam', dob:'10/01/1985', age:40,
+    allergy:'Aspirin',
+    address:'67 Lê Lợi, An Giang',
+    note:'Dị ứng Aspirin — nổi mề đay. Tránh dùng các thuốc chứa Aspirin.',
+    avClass:'av-green', avInitial:'PĐ',
+    visits:[
+      { date:'03/05/2026', diag:'Cảm cúm, sốt cao 39°C',
+        drugs:[
+          {name:'Paracetamol 500mg', dose:'1 viên × 4 lần/ngày', days:'5', note:'Cách nhau 6 tiếng'},
+          {name:'Cetirizin 10mg',    dose:'1 viên × 1 lần/ngày', days:'5', note:'Tối trước ngủ'},
+          {name:'Vitamin C 500mg',   dose:'1 viên × 2 lần/ngày', days:'7', note:'Sau ăn'},
+        ]},
+    ]
+  },
+  {
+    id:5, name:'Võ Thị Mai Anh', phone:'0908 765 432',
+    gender:'Nữ', dob:'03/11/2001', age:23,
+    allergy:'',
+    address:'120 Đinh Tiên Hoàng, An Giang',
+    note:'',
+    avClass:'av-purple', avInitial:'VM',
+    visits:[
+      { date:'20/04/2026', diag:'Viêm mũi dị ứng theo mùa',
+        drugs:[
+          {name:'Loratadin 10mg',  dose:'1 viên × 1 lần/ngày', days:'14', note:'Sáng sau ăn'},
+          {name:'Fluticasone xịt mũi', dose:'Xịt 2 lần mỗi bên/ngày', days:'30', note:'Buổi sáng'},
+        ]},
+      { date:'10/01/2026', diag:'Viêm họng, amidan',
+        drugs:[
+          {name:'Azithromycin 500mg', dose:'1 viên × 1 lần/ngày', days:'5', note:'Sau ăn'},
+          {name:'Paracetamol 500mg',  dose:'1 viên × 3 lần/ngày', days:'5', note:'Khi sốt'},
+        ]},
+    ]
+  },
+  {
+    id:6, name:'Nguyễn Văn Khoa', phone:'0965 321 654',
+    gender:'Nam', dob:'28/04/1958', age:67,
+    allergy:'',
+    address:'9 Phan Đình Phùng, An Giang',
+    note:'Bệnh nhân cao tuổi. Tiểu đường type 2 kiểm soát tốt. Dùng Metformin dài hạn. Kiểm tra đường huyết định kỳ.',
+    avClass:'av-blue', avInitial:'NK',
+    visits:[
+      { date:'28/04/2026', diag:'Tái khám tiểu đường, kiểm tra định kỳ',
+        drugs:[
+          {name:'Metformin 500mg',    dose:'1 viên × 2 lần/ngày', days:'30', note:'Sau bữa ăn'},
+          {name:'Vitamin B complex',  dose:'1 viên × 1 lần/ngày', days:'30', note:'Sau ăn sáng'},
+        ]},
+      { date:'28/03/2026', diag:'Tái khám tiểu đường',
+        drugs:[
+          {name:'Metformin 500mg', dose:'1 viên × 2 lần/ngày', days:'30', note:'Sau ăn'},
+        ]},
+      { date:'28/02/2026', diag:'Cảm lạnh nhẹ, mệt mỏi',
+        drugs:[
+          {name:'Paracetamol 500mg', dose:'1 viên × 3 lần/ngày', days:'3', note:'Khi sốt'},
+          {name:'Vitamin C 500mg',   dose:'1 viên × 2 lần/ngày', days:'7', note:'Sau ăn'},
+        ]},
+    ]
+  },
+];
+
+let currentPatient = null;
+
+// ── RENDER PATIENT LIST ──
+function renderPatients(list) {
+  const container = document.getElementById('patientList');
+  const label = document.getElementById('listLabel');
+  const count = document.getElementById('listCount');
+  const q = document.getElementById('searchInput').value.trim();
+
+  if (q.length > 0) {
+    label.textContent = 'Kết quả tìm kiếm';
+    count.textContent = list.length + ' bệnh nhân';
+  } else {
+    label.textContent = 'Bệnh nhân gần đây';
+    count.textContent = list.length + ' bệnh nhân';
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <p>Không tìm thấy bệnh nhân nào.<br>Thử tên khác hoặc <a href="#" onclick="openNewPatientModal();return false" style="color:var(--blue)">thêm bệnh nhân mới</a>.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(p => {
+    const lastVisit = p.visits[0];
+    return `
+    <div class="patient-row" onclick="openProfile(${p.id})">
+      <div class="pr-left">
+        <div class="avatar ${p.avClass}">${p.avInitial}</div>
+        <div>
+          <div class="pat-name">${p.name}</div>
+          <div class="pat-meta">${p.phone} &nbsp;·&nbsp; ${p.gender}, ${p.age} tuổi</div>
+        </div>
+      </div>
+      <div class="pr-right">
+        <div class="last-visit-label">Khám gần nhất</div>
+        <div class="last-visit-date">${lastVisit ? lastVisit.date : '—'}</div>
+        ${lastVisit ? '<span class="badge-rx">Xem đơn thuốc</span>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterPatients() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (q.length === 0) { renderPatients(patients); return; }
+  if (q.length < 2) { return; }
+  const result = patients.filter(p =>
+    p.name.toLowerCase().includes(q) || p.phone.includes(q)
+  );
+  renderPatients(result);
+}
+
+// ── OPEN PROFILE ──
+function openProfile(id) {
+  currentPatient = patients.find(p => p.id === id);
+  if (!currentPatient) return;
+  const p = currentPatient;
+
+  // Avatar
+  const av = document.getElementById('profileAvatar');
+  av.className = `avatar profile-avatar ${p.avClass}`;
+  av.textContent = p.avInitial;
+
+  document.getElementById('profileName').textContent = p.name;
+  document.getElementById('profileMeta').textContent =
+    `${p.gender} · ${p.age} tuổi (${p.dob}) · ${p.phone} · ${p.address}`;
+
+  const allergyEl = document.getElementById('profileAllergy');
+  allergyEl.innerHTML = p.allergy
+    ? `<span class="allergy-pill">⚠ Dị ứng: ${p.allergy}</span>`
+    : '';
+
+  // Last RX
+  const rxCard = document.getElementById('lastRxContent');
+  if (p.visits.length === 0) {
+    rxCard.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">Chưa có lần khám nào.</div>';
+  } else {
+    const last = p.visits[0];
+    rxCard.innerHTML = `
+      <div class="rx-visit-info">Ngày khám: <strong>${last.date}</strong> &nbsp;·&nbsp; <strong>${last.diag}</strong></div>
+      ${last.drugs.map(d => `
+        <div class="drug-item">
+          <div>
+            <div class="di-name">${d.name}</div>
+            <div class="di-dose">${d.dose}${d.note ? ' — ' + d.note : ''}</div>
+          </div>
+          <div class="di-days">${d.days} ngày</div>
+        </div>`).join('')}`;
+  }
+
+  // History
+  const histEl = document.getElementById('historyContent');
+  if (p.visits.length === 0) {
+    histEl.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">Chưa có lịch sử khám.</div>';
+  } else {
+    histEl.innerHTML = p.visits.map((v,i) => `
+      <div class="hist-item">
+        <div>
+          <div class="hi-date">${v.date}</div>
+          <div class="hi-diag">${v.diag}</div>
+        </div>
+        <span class="hist-link">Xem →</span>
+      </div>`).join('');
+  }
+
+  // Note
+  const noteEl = document.getElementById('profileNote');
+  noteEl.innerHTML = p.note
+    ? `<div class="note-banner" style="margin-top:0"><strong>Ghi chú bác sĩ:</strong> ${p.note}</div>`
+    : '';
+
+  showScreen('profile');
+}
+
+// ── PRESCRIPTION FORM ──
+function showPrescriptionForm() {
+  const p = currentPatient;
+  if (!p) return;
+
+  document.getElementById('formBreadcrumbName').textContent = p.name;
+  document.getElementById('formPatientName').textContent = p.name;
+  document.getElementById('formPatientMeta').textContent = `${p.gender}, ${p.age} tuổi`;
+  document.getElementById('diagnosisInput').value = '';
+  document.getElementById('noteInput').value = '';
+
+  const formAv = document.getElementById('formAvatar');
+  formAv.className = `avatar ${p.avClass}`;
+  formAv.style.width = '36px'; formAv.style.height = '36px'; formAv.style.fontSize = '12px';
+  formAv.textContent = p.avInitial;
+
+  const allergyTag = document.getElementById('formAllergyTag');
+  allergyTag.innerHTML = p.allergy
+    ? `<span class="allergy-pill" style="font-size:11px;padding:2px 8px">⚠ Dị ứng: ${p.allergy}</span>`
+    : '';
+
+  // Hint bar
+  const hintBar = document.getElementById('hintBar');
+  if (p.visits.length > 0) {
+    const last = p.visits[0];
+    document.getElementById('hintBarText').innerHTML =
+      `<strong>Lần trước (${last.date}):</strong> ${last.diag} — ${last.drugs.map(d=>d.name).join(', ')}`;
+    hintBar.style.display = 'flex';
+  } else {
+    hintBar.style.display = 'none';
+  }
+
+  // Drug table — start with 2 empty rows
+  resetDrugTable();
+  addDrugRow(); addDrugRow();
+
+  showScreen('form');
+}
+
+function resetDrugTable() {
+  document.getElementById('drugTableBody').innerHTML = '';
+}
+
+function addDrugRow(name='', dose='', days='', note='') {
+  const tbody = document.getElementById('drugTableBody');
+  const tr = document.createElement('tr');
+  const doseOptions = ['','1 viên × 1 lần/ngày','1 viên × 2 lần/ngày','1 viên × 3 lần/ngày',
+    '1 viên × 4 lần/ngày','2 viên × 2 lần/ngày','2 viên × 3 lần/ngày',
+    'Xịt 2 lần mỗi bên/ngày','Ngậm 1 viên × 4 lần/ngày'];
+  const doseOpts = doseOptions.map(o =>
+    `<option${o===dose?' selected':''}>${o}</option>`).join('');
+  tr.innerHTML = `
+    <td><input type="text" list="drugSuggestions" placeholder="Tìm tên thuốc..." value="${name}" style="min-width:140px"/></td>
+    <td><select>${doseOpts}</select></td>
+    <td><input type="number" class="days-input" placeholder="7" value="${days}" min="1" max="365" style="width:68px"/></td>
+    <td><input type="text" placeholder="VD: Sau ăn" value="${note}"/></td>
+    <td><button class="btn-remove-drug" onclick="this.closest('tr').remove()" title="Xóa">×</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function cloneLastRx() {
+  const p = currentPatient;
+  if (!p || p.visits.length === 0) return;
+  const last = p.visits[0];
+  document.getElementById('diagnosisInput').value = last.diag;
+  resetDrugTable();
+  last.drugs.forEach(d => addDrugRow(d.name, d.dose, d.days, d.note));
+  showToast('Đã sao chép đơn thuốc lần trước. Kiểm tra lại trước khi lưu.');
+}
+
+function saveVisit() {
+  const diag = document.getElementById('diagnosisInput').value.trim();
+  if (!diag) {
+    document.getElementById('diagnosisInput').focus();
+    document.getElementById('diagnosisInput').style.borderColor = 'var(--red)';
+    setTimeout(()=>{ document.getElementById('diagnosisInput').style.borderColor=''; }, 2000);
+    return;
+  }
+
+  // Collect drug rows
+  const rows = document.querySelectorAll('#drugTableBody tr');
+  const drugs = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input, select');
+    const name = inputs[0].value.trim();
+    if (!name) return;
+    drugs.push({
+      name, dose: inputs[1].value, days: inputs[2].value || '7', note: inputs[3].value
+    });
+  });
+
+  const newVisit = { date: fmtDate(today), diag, drugs };
+  currentPatient.visits.unshift(newVisit);
+
+  showToast(`Đã lưu phiếu khám cho ${currentPatient.name}`);
+  setTimeout(() => openProfile(currentPatient.id), 400);
+}
+
+// ── NEW PATIENT ──
+function openNewPatientModal() {
+  document.getElementById('newPatientModal').classList.add('show');
+  document.getElementById('newName').value = '';
+  document.getElementById('newPhone').value = '';
+  document.getElementById('newDob').value = '';
+  document.getElementById('newAllergy').value = '';
+  document.getElementById('newAddress').value = '';
+  setTimeout(() => document.getElementById('newName').focus(), 100);
+}
+function closeModal() {
+  document.getElementById('newPatientModal').classList.remove('show');
+}
+
+function addNewPatient() {
+  const name = document.getElementById('newName').value.trim();
+  if (!name) { document.getElementById('newName').focus(); return; }
+
+  const initials = name.split(' ').slice(-2).map(w=>w[0]||'').join('').toUpperCase();
+  const avClasses = ['av-blue','av-teal','av-amber','av-green','av-purple'];
+  const avClass = avClasses[Math.floor(Math.random() * avClasses.length)];
+
+  const newP = {
+    id: Date.now(),
+    name,
+    phone: document.getElementById('newPhone').value || '—',
+    gender: document.getElementById('newGender').value,
+    dob: document.getElementById('newDob').value || '—',
+    age: '—',
+    allergy: document.getElementById('newAllergy').value,
+    address: document.getElementById('newAddress').value,
+    note: '',
+    avClass, avInitial: initials || name.slice(0,2).toUpperCase(),
+    visits: [],
+  };
+  patients.unshift(newP);
+  closeModal();
+  showToast(`Đã thêm bệnh nhân mới: ${name}`);
+  renderPatients(patients);
+}
+
+// ── SCREEN MANAGEMENT ──
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (name === 'search') {
+    document.querySelector('.nav-item').classList.add('active');
+    renderPatients(patients);
+  }
+  window.scrollTo(0,0);
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── MODAL CLOSE ON OVERLAY CLICK ──
+document.getElementById('newPatientModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── INIT ──
+renderPatients(patients);
+</script>
+</body>
+</html>
